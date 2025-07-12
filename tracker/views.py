@@ -6,10 +6,11 @@ from .models import *
 
 # Create your views here.
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_view(request):
   resp=dict()
   resp["status_code"]=200
   resp["status_msg"]="get Api working"
   resp["some random key"]="random success value"
+  resp["method type"]=str(request.method)
   return Response(resp)
