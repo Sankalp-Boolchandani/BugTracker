@@ -32,3 +32,22 @@ def add_project(request):
     serializer.save()
     return Response(serializer.data)
   return Response({"msg": "cant save project"})
+
+@api_view(['PUT', 'PATCH'])
+def update_project(request):
+  if request.method=='PUT':
+    data=request.data
+    project=Project.objects.get(id=data['id'])
+    serializer=ProjectSerializer(project, data=data, partial=False)
+    if serializer.is_valid():
+      serializer.save()
+    return Response(serializer.data)
+  elif request.method=='PATCH':
+    data=request.data
+    project=Project.objects.get(id=data['id'])
+    serializer=ProjectSerializer(project, data=data, partial=True)
+    if serializer.is_valid():
+      serializer.save()
+    return Response(serializer.data)
+  else:
+    return Response({"msg": "error"})
