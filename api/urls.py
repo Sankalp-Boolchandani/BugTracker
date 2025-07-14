@@ -4,4 +4,5 @@ from django.urls import path, include
 urlpatterns = [
     path('index/', get_view),
     path('projects/', get_projects),
+    path('add_project/', add_project)
 ]
