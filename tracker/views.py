@@ -51,3 +51,10 @@ def update_project(request):
     return Response(serializer.data)
   else:
     return Response({"msg": "error"})
+
+@api_view(['DELETE'])
+def delete_project(request):
+  data=request.data
+  obj=Project.objects.get(id=data['id'])
+  obj.delete()
+  return Response({"msg": "deleted"})

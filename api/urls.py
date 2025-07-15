@@ -2,8 +2,9 @@ from tracker.views import *
 from django.urls import path, include
 
 urlpatterns = [
-    path('index/', get_view),
-    path('projects/', get_projects),
-    path('add_project/', add_project),
-    path('update_project/', update_project),
+    path('index', get_view),
+    path('projects', get_projects),
+    path('add_project', add_project),
+    path('update_project', update_project),
+    path('delete_project', delete_project),
 ]
