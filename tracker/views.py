@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import *
 from .serializers import *
 from django.shortcuts import get_object_or_404
+from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND
 
 # Create your views here.
 
@@ -75,3 +75,21 @@ def create_ticket(request):
     return Response(serializer.data)
   return Response({"msg":"couldn't save ticket"})
 
+
+@api_view(['GET', 'PUT', 'PATCH'])
+def ticket(request, id):
+  ticket=get_object_or_404(Ticket, id=id)
+  if request.method=='GET':
+    serializer=TicketSerializer(ticket)
+    return Response(serializer.data)
+  else:
+    data=request.data
+    serializer=None
+    if request.method=='PUT':
+      serializer=TicketSerializer(ticket, data=data)  
+    elif request.method=='PATCH':
+      serializer=TicketSerializer(ticket, data=data, partial=True)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, HTTP_200_OK)
+    return Response(serializer.errors, HTTP_404_NOT_FOUND)
