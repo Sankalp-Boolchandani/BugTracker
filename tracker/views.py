@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
-from rest_framework import serializers
 from .serializers import *
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -55,6 +53,25 @@ def update_project(request):
 @api_view(['DELETE'])
 def delete_project(request):
   data=request.data
-  obj=Project.objects.get(id=data['id'])
+  obj=get_object_or_404(Project, id=data['id'])
   obj.delete()
   return Response({"msg": "deleted"})
+
+
+# Ticket methods
+
+@api_view(['GET'])
+def get_all_tickets(request):
+  tickets=Ticket.objects.all()
+  serializer=TicketSerializer(tickets, many=True)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def create_ticket(request):
+  data=request.data
+  serializer=TicketSerializer(data=data)
+  if serializer.is_valid():
+    serializer.save()
+    return Response(serializer.data)
+  return Response({"msg":"couldn't save ticket"})
+
