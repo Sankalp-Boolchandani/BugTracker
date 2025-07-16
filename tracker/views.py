@@ -93,3 +93,10 @@ def ticket(request, id):
       serializer.save()
       return Response(serializer.data, HTTP_200_OK)
     return Response(serializer.errors, HTTP_404_NOT_FOUND)
+  
+
+@api_view(['GET'])
+def tickets_based_on_project(request, project_id):
+  tickets=Ticket.objects.filter(project_id=project_id)
+  serializer=TicketSerializer(tickets, many=True)
+  return Response(serializer.data)

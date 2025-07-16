@@ -14,4 +14,5 @@ urlpatterns = [
     path('tickets', get_all_tickets),
     path('add_ticket', create_ticket),
     path('ticket/<id>', ticket),
+    path('project/<project_id>/tickets', tickets_based_on_project),
 ]
